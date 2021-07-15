@@ -1,16 +1,18 @@
-const express = require('express')
-    , app = express()
-    , bodyParser = require('body-parser')
-    , path = require('path')
-    , cors = require('cors')
-    , db = require('./database')
-    , multer = require('multer')
-    , uuidv4 = require('uuid/v4')
-    , fs = require('fs')
-    , { commentRoutes, photoRoutes, userRoutes } = require('../app/routes');
+const express = require('express'),
+    app = express(),
+    bodyParser = require('body-parser'),
+    path = require('path'),
+    cors = require('cors'),
+    db = require('./database'),
+    multer = require('multer')
+    // , uuidv4 = require('uuid/v4')
+    ,
+    uuidv4 = require('uuid'),
+    fs = require('fs'),
+    { commentRoutes, photoRoutes, userRoutes } = require('../app/routes');
 
 const uploadDir = './uploads';
-if (!fs.existsSync(uploadDir)){
+if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
     fs.mkdirSync(uploadDir + '/imgs');
 }
@@ -19,7 +21,7 @@ const storage = multer.diskStorage({
     destination(req, file, cb) {
         cb(null, 'uploads/imgs')
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, `${uuidv4()}${path.extname(file.originalname)}`);
     }
 });
@@ -51,7 +53,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
     const token = req.headers['x-access-token'];
     console.log('####################################');
-    if(token) {
+    if (token) {
         console.log('A token is send by the application');
         console.log('Token value is ' + token);
     } else {
