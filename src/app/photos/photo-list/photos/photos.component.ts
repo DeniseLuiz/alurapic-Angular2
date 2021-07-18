@@ -1,22 +1,24 @@
 import { Photo } from './../../photo/photo';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.css']
 })
-export class PhotosComponent implements OnInit {
+export class PhotosComponent implements OnChanges {
 
   @Input() photos: Photo[] = [];
 
   rows: any[] = [];
 
   constructor() { }
+  ngOnChanges(changes: SimpleChanges){
 
-  ngOnInit(): void {
-    this.rows = this.groupColumns(this.photos);
+    if(changes.photos) this.rows = this.groupColumns(this.photos);
+
   }
+
   groupColumns(photos: Photo[]) {
     const newRows = [];
 
